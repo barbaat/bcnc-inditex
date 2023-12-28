@@ -1,14 +1,14 @@
-# Proyecto de Consulta de Precios en Comercio Electrónico
+# Proyecto de consulta de precios en comercio electrónico
 
 Este proyecto implementa un servicio en SpringBoot que ofrece un endpoint REST para consultar precios en la base de datos de comercio electrónico de la compañía. La información se extrae de la tabla `PRICES`, que refleja el precio final (PVP) y la tarifa que se aplica a un producto de una cadena en un rango de fechas determinado.
 
-## Cómo Ejecutar el Proyecto
+## ¿Cómo ejecutar el proyecto?
 
 1. Clona este repositorio: `git clone https://github.com/barbaat/bcnc-inditex.git`.
 2. Abre el proyecto en tu IDE favorito.
-3. Ejecuta `mvn clean install` para isntalar todas las despendencias y compilar la aplicación.
-3. Ejecuta la aplicación SpringBoot con Maven: `mvn spring-boot:run`.
-4. Accede al endpoint REST para realizar consultas de precios.
+3. Ejecuta `mvn clean install` para instalar todas las dependencias y compilar la aplicación.
+4. Ejecuta la aplicación SpringBoot con Maven: `mvn spring-boot:run`.
+5. Accede al endpoint REST para realizar consultas de precios.
 
 ## Endpoint REST
 
@@ -33,20 +33,21 @@ Para probar la implementación del endpoint:
 2. Crear una petición GET con este endpoint y parámetros:
 `http://localhost:8080/price/get-price?date=2020-08-01T12:00:00&productId=35455&brandId=1`
 3. Con los datos inicializados en la base de datos, debe salir como resultado el precio con id=4.
-`{
-    "id": 4,
-    "brand_id": 1,
-    "start_dat": "2020-06-15T16:00:00",
-    "end_dat": "2020-12-31T23:59:59",
-    "price_list": 4,
-    "product_id": 35455,
-    "price": 38.95,
-    "currency": "EUR",
-    "productName": "Camisa",
-    "brandName": "ZARA"
-}`
+   ```json
+   {
+       "id": 4,
+       "brand_id": 1,
+       "start_date": "2020-06-15T16:00:00",
+       "end_date": "2020-12-31T23:59:59",
+       "price_list": 4,
+       "product_id": 35455,
+       "price": 38.95,
+       "currency": "EUR",
+       "productName": "Camisa",
+       "brandName": "ZARA"
+   }
 
-## Ejemplos de Test
+## Tests
 
 Se han desarrollado tests para el endpoint REST que validan las siguientes peticiones al servicio con los datos del ejemplo:
 
@@ -56,47 +57,47 @@ Se han desarrollado tests para el endpoint REST que validan las siguientes petic
 - **Test 4:** Petición a las 10:00 del día 15 para el producto 35455 y la cadena 1 (ZARA).
 - **Test 5:** Petición a las 21:00 del día 16 para el producto 35455 y la cadena 1 (ZARA).
 
-## PriceControllerTests
+### PriceControllerTests
 
 Esta clase contiene pruebas unitarias para la clase PriceController. Incluye una prueba para el método `getPriceValue`, que prueba la solicitud GET al endpoint `/price/get-price`.
 
-### Configuración
+#### Configuración
 
 - Declaraciones de Autowired y MockBean para PriceController, PriceService, ProductService y BrandService.
 - Objetos Price y un método de configuración para datos de prueba.
 - Método de utilidad para crear objetos Price.
 
-### Cómo Ejecutar
+#### Cómo Ejecutar
 
 Ejecute las pruebas utilizando su marco de pruebas preferido.
 
-## PricesServicesTests
+### PricesServicesTests
 
 Esta clase contiene pruebas unitarias para la clase PriceService. Incluye una prueba para el método `getPriceByDatesAndProductAndBrand`.
 
-### Configuración
+#### Configuración
 
 - Declaraciones de Mock e InjectMocks para PriceRepository y PriceService.
 
-### Cómo Ejecutar
+#### Cómo Ejecutar
 
 Ejecute las pruebas utilizando su marco de pruebas preferido.
 
-## Tabla PRICES
+## Arquitectura del Proyecto
 
-La tabla PRICES contiene los siguientes campos relevantes:
+El proyecto sigue la arquitectura estándar de Spring Boot, que incluye los siguientes componentes principales:
 
-- `BRAND_ID`: Clave foránea de la cadena del grupo (1 = ZARA).
-- `START_DATE`, `END_DATE`: Rango de fechas en el que aplica el precio tarifa indicado.
-- `PRICE_LIST`: Identificador de la tarifa de precios aplicable.
-- `PRODUCT_ID`: Identificador del código de producto.
-- `PRIORITY`: Desambiguador de aplicación de precios. Si dos tarifas coinciden en un rango de fechas, se aplica la de mayor prioridad (mayor valor numérico).
-- `PRICE`: Precio final de venta.
-- `CURR`: ISO de la moneda.
+- **Controladores (`Controllers`):** Manejan las solicitudes HTTP y gestionan las respuestas.
+  
+- **Servicios (`Services`):** Contienen la lógica empresarial y supervisan la interacción con la capa de datos.
+  
+- **Repositorios (`Repositories`):** Proporcionan métodos para acceder a la base de datos.
+
+Además, he adoptado patrones arquitectónicos comunes, como el patrón Modelo-Vista-Controlador (MVC), para organizar y estructurar el código de manera eficiente. Este enfoque mejora la mantenibilidad del proyecto.
+
+Esta estructura proporciona una clara separación de responsabilidades, promoviendo la modularidad y facilitando el mantenimiento del código. Este enfoque sigue las mejores prácticas de desarrollo de software y mejora la escalabilidad y la testabilidad del proyecto.
+
 
 ## Base de Datos en Memoria (H2)
 
-Se utiliza una base de datos en memoria de tipo H2, inicializada con los datos del ejemplo. Se ha elegido el tipo de dato que se considera adecuado para cada campo.
-
-
-
+Utilizo una base de datos en memoria de tipo H2, inicializada con los datos del ejemplo. He elegido el tipo de dato que he considerado adecuado para cada campo.
