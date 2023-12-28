@@ -10,6 +10,42 @@ Este proyecto implementa un servicio en SpringBoot que ofrece un endpoint REST p
 3. Ejecuta la aplicación SpringBoot con Maven: `mvn spring-boot:run`.
 4. Accede al endpoint REST para realizar consultas de precios.
 
+## Endpoint REST
+
+El servicio expone un endpoint REST para consultar precios con los siguientes parámetros de entrada:
+
+- `applicationDate`: Fecha de aplicación.
+- `productId`: Identificador de producto.
+- `brandId`: Identificador de cadena.
+
+Los datos de salida incluyen:
+
+- `productId`: Identificador de producto.
+- `brandId`: Identificador de cadena.
+- `priceList`: Tarifa a aplicar.
+- `start_date`, `end_date`: Fechas de aplicación.
+- `finalPrice`: Precio final a aplicar.
+
+### Probar la implementación del endpoint
+
+Para probar la implementación del endpoint:
+1. Usar cualquier plataforma de API para desarrolladores, por ejemplo Postman.
+2. Crear una petición GET con este endpoint y parámetros:
+`http://localhost:8080/price/get-price?date=2020-08-01T12:00:00&productId=35455&brandId=1`
+3. Con los datos inicializados en la base de datos, debe salir como resultado el precio con id=4.
+`{
+    "id": 4,
+    "brand_id": 1,
+    "start_dat": "2020-06-15T16:00:00",
+    "end_dat": "2020-12-31T23:59:59",
+    "price_list": 4,
+    "product_id": 35455,
+    "price": 38.95,
+    "currency": "EUR",
+    "productName": "Camisa",
+    "brandName": "ZARA"
+}`
+
 ## Ejemplos de Test
 
 Se han desarrollado tests para el endpoint REST que validan las siguientes peticiones al servicio con los datos del ejemplo:
@@ -57,22 +93,6 @@ La tabla PRICES contiene los siguientes campos relevantes:
 - `PRIORITY`: Desambiguador de aplicación de precios. Si dos tarifas coinciden en un rango de fechas, se aplica la de mayor prioridad (mayor valor numérico).
 - `PRICE`: Precio final de venta.
 - `CURR`: ISO de la moneda.
-
-## Endpoint REST
-
-El servicio expone un endpoint REST para consultar precios con los siguientes parámetros de entrada:
-
-- `applicationDate`: Fecha de aplicación.
-- `productId`: Identificador de producto.
-- `brandId`: Identificador de cadena.
-
-Los datos de salida incluyen:
-
-- `productId`: Identificador de producto.
-- `brandId`: Identificador de cadena.
-- `priceList`: Tarifa a aplicar.
-- `start_date`, `end_date`: Fechas de aplicación.
-- `finalPrice`: Precio final a aplicar.
 
 ## Base de Datos en Memoria (H2)
 
