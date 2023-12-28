@@ -60,14 +60,29 @@ public class Price {
     @JsonIgnore
     private Product product;
     
+    /**
+     * Gets the name of the brand associated with this price.
+     *
+     * @return The name of the brand
+     */
     public String getBrandName() {
         return brand.getName();
     }
 
+    /**
+     * Gets the name of the product associated with this price.
+     *
+     * @return The name of the product
+     */
     public String getProductName() {
         return product.getName();
     }
     
+    /**
+     * Overrides the default toString method to provide a custom string representation of the Price object.
+     *
+     * @return A formatted string representation of the Price object
+     */
     @Override
     public String toString() {
         return "Price{" +
